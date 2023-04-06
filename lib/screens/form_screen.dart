@@ -16,6 +16,23 @@ class _FormScreenState extends State<FormScreen> {
   TextEditingController imageController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  bool valueValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
+  bool dufficultyValidator(String? value) {
+    if (value != null && value.isEmpty) {
+      if (int.parse(value) < 1 ||
+          int.parse(value) > 5) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -41,8 +58,8 @@ class _FormScreenState extends State<FormScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextFormField(
-                      validator: (value) {
-                        if (value != null && value.isEmpty) {
+                      validator: (String? value) {
+                        if (valueValidator(value)) {
                           return 'Insira o nome de uma tarefa';
                         }
                         return null;
@@ -86,8 +103,8 @@ class _FormScreenState extends State<FormScreen> {
                         setState(() {});
                       },
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Insira uma URL de uma imagem!';
+                        if(dufficultyValidator(value)){
+                          return "Insira uma dificuldade entre 1 e 5";
                         }
                         return null;
                       },
