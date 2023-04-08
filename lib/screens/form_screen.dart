@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_projects/components/task.dart';
+import 'package:flutter_projects/data/task_dao.dart';
 import 'package:flutter_projects/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
@@ -103,7 +105,7 @@ class _FormScreenState extends State<FormScreen> {
                         setState(() {});
                       },
                       validator: (value) {
-                        if(dufficultyValidator(value)){
+                        if (dufficultyValidator(value)) {
                           return "Insira uma dificuldade entre 1 e 5";
                         }
                         return null;
@@ -131,31 +133,27 @@ class _FormScreenState extends State<FormScreen> {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(imageController.text, errorBuilder:
                           (BuildContext context, Object exception,
-                              StackTrace? stackTrace) {
+                          StackTrace? stackTrace) {
                         return Image.asset('assets/images/noPhoto.png');
                       }, fit: BoxFit.cover),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // print(nameController.text);
-                        // print(difficultyController.text);
-                        // print(imageController.text);
-                        TaskInherited.of(widget.taskContext).newTask(
-                            nameController.text,
-                            imageController.text,
-                            int.parse(difficultyController.text));
+                      TaskDao().save(Task(
+                          nameController.text,
+                          imageController.text,
+                          int.parse(difficultyController.text)
+                      ));
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Criando uma nova tarefa'),
-                          ),
-                        );
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: const Text('Adicionar!'),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                      content: Text('Criando uma nova tarefa'),
+                      ),
+                      );
+                      Navigator.pop(context);
+                      },
+                      child: const Text('Adicionar!'),
                   ),
                 ],
               ),

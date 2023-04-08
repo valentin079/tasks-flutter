@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_projects/components/difficulty.dart';
+import 'package:flutter_projects/data/task_dao.dart';
 
 class Task extends StatefulWidget {
   final String name;
@@ -85,27 +86,50 @@ class _TaskState extends State<Task> {
                         Difficulty(difficultyLevel: widget.difficulty),
                       ],
                     ),
-                    SizedBox(
-                      height: 52,
-                      width: 52,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            widget.nivel++;
-                          });
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
-                            Icon(Icons.arrow_drop_up),
-                            Text(
-                              'UP',
-                              style: TextStyle(fontSize: 12),
-                            )
-                          ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          height: 60,
+                          width: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                widget.nivel++;
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Icon(Icons.arrow_drop_up),
+                                Text(
+                                  'UP',
+                                  style: TextStyle(fontSize: 12),
+                                )
+                              ],
+                            ),
+                          ),),
+                        SizedBox(
+                          height: 60,
+                          width: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              TaskDao().delete(widget.name);
+                              setState(() {
+
+                              });
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: const [
+                                Icon(Icons.delete),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
